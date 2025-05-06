@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libsndfile1 \
     alsa-utils \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar arquivos de requisitos
@@ -18,8 +19,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Baixar o modelo XTTS v2
-RUN python -c "from TTS.api import TTS; TTS().download_model('tts_models/multilingual/multi-dataset/xtts_v2')"
+# Baixar o modelo XTTS v2 usando huggingface_hub
+RUN pip install --no-cache-dir huggingface_hub && \
+    python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='coqui/XTTS-v2', local_dir='/root/.local/share/TTS/tts_models/multilingual/multi-dataset/xtts_v2')"
 
 # Copiar o código da aplicação
 COPY . .
