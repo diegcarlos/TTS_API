@@ -18,6 +18,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+# Baixar o modelo XTTS v2
+RUN python -c "from TTS.api import TTS; TTS().download_model('tts_models/multilingual/multi-dataset/xtts_v2')"
+
 # Copiar o código da aplicação
 COPY . .
 
