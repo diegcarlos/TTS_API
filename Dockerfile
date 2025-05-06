@@ -19,6 +19,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+# Configurar a variável de ambiente para aceitar os termos de licença
+ENV COQUI_TOS_AGREED=1
+
 # Baixar o modelo XTTS v2 usando huggingface_hub
 RUN pip install --no-cache-dir huggingface_hub && \
     python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='coqui/XTTS-v2', local_dir='/root/.local/share/TTS/tts_models/multilingual/multi-dataset/xtts_v2')"
